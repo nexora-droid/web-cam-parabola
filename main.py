@@ -1,16 +1,20 @@
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer
 
-
-home = st.Page("main.py", title="Home", icon="🏠")
-faq = st.Page("faq.py", title="FAQ", icon="❓")
-
-
-st.set_page_config(initial_sidebar_state="collapsed")
-st.title("Web-bola")
+st.markdown("""
+    <style>
+    div.stButton > button > div > p {
+        text-align: left;
+        width: 100%;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+if "page" not in st.session_state:
+    st.session_state = "Home"
 with st.sidebar:
-    col1, col2, col3 = st.columns([1,2 ,1])
-    with col2:
-        st.title("Web-bola")
-    st.page_link(home)
-    st.page_link(faq)
+    if st.button(label="Home", icon="🏠", use_container_width=True):
+        st.session_state = "Home"
+    if st.button(label="FAQ", icon="❓", use_container_width=True):
+        st.session_state = "FAQ"
+    if st.button(label="Options", icon="⚙️", use_container_width=True):
+        st.session_state = "Options"
