@@ -4,16 +4,16 @@ from git import Repo
 import arrow
 import os
 
-repo = Repo(os.getcwd(), search_parent_directories=True)
-repo_url = "https://github.com/nexora-droid/web-cam-parabola/"
-head_commit = repo.head.commit
-commit_hash = head_commit.hexsha
-commit_message = head_commit.message
-commit_author = head_commit.author
-commit_date = head_commit.authored_datetime
-commit_link = f"{repo_url}commit/{commit_hash}"
 @st.fragment(run_every="1s")
 def show_sidebar_footer():
+    repo = Repo(os.getcwd(), search_parent_directories=True)
+    repo_url = "https://github.com/nexora-droid/web-cam-parabola/"
+    head_commit = repo.head.commit
+    commit_hash = head_commit.hexsha
+    commit_message = head_commit.message
+    commit_author = head_commit.author
+    commit_date = head_commit.authored_datetime
+    commit_link = f"{repo_url}commit/{commit_hash}"
     st.divider(width="stretch")
     st.markdown("This project is maintained by [@nexora-droid](https://www.github.com/nexora-droid), under a [personal license](https://github.com/nexora-droid/web-cam-parabola/blob/main/LICENSE.md) proihibitng the usage of this project for commerical uses.")
     st.write("All code is publicly available at [the repository](https://github.com/nexora-droid/web-cam-parabola/).")
