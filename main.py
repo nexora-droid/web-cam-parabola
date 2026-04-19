@@ -21,7 +21,7 @@ def show_sidebar_footer():
     timestamp = commit_date
     past_time = arrow.get(timestamp)
     relative_time = past_time.humanize()
-    st.markdown(f"**Last commit:** [`{commit_hash[:7]}`]({commit_link}), _'{commit_message}'_  {relative_time} by {commit_author}")
+    st.markdown(f"**Last commit:** [`{commit_hash[:7]}`]({commit_link}), _'{commit_message.strip()}'_  {relative_time} by {commit_author}")
 
 if "page" not in st.session_state:
     st.session_state = "Home"
