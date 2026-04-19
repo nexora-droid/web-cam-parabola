@@ -23,21 +23,24 @@ def show_sidebar_footer():
     relative_time = past_time.humanize()
     st.markdown(f"**Last commit:** [`{commit_hash[:7]}`]({commit_link}), '_{commit_message.strip()}_'   {relative_time} by {commit_author}")
 
-if "page" not in st.session_state:
-    st.session_state = "Home"
+if "nav_page" not in st.session_state:
+    st.session_state["nav_page"] = "Home"
 with st.sidebar:
     if st.button(label="Home", icon="🏠", use_container_width=True):
-        st.session_state = "Home"
+        st.session_state["nav_page"] = "Home"
     if st.button(label="FAQ", icon="❓", use_container_width=True):
-        st.session_state = "FAQ"
+        st.session_state["nav_page"] = "FAQ"
     if st.button(label="Options", icon="⚙️", use_container_width=True):
-        st.session_state = "Options"
+        st.session_state["nav_page"] = "Options"
     show_sidebar_footer()
-if st.session_state == "Home":
+if st.session_state["nav_page"] == "Home":
     st.title("Home")
     st.text("Web-bola is a free, open-source project that runs on Python to track the motion of an object using your webcam and turns it into a parabola graph.")
-    webrtc_streamer(key="example")
-if st.session_state == "FAQ":
+    st.divider(width="stretch")
+    st.subheader("View your camera")
+    webrtc_streamer(key="video", media_stream_constraints={"video":True, "audio":False})
+    st.text("Press start to start your camera. If you are using an external camera, remember to select it in the select device option")
+if st.session_state["nav_page"] == "FAQ":
     st.title("FAQ")
-if st.session_state == "Options":
+if st.session_state["nav_page"] == "Options":
     st.title("Options")
