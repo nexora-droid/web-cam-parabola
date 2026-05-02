@@ -8,15 +8,23 @@ import cv2
 
 class Processor(VideoProcessorBase):
     def __init__(self):
-        self.points =[]
+        self.points = []
+
     def recv(self, frame):
         img = frame.to_ndarray(format="bgr24")
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        lower = (35, 50, 50)
+        lower = (40, 50, 50)
         upper = (85, 255, 255 )
         mask = cv2.inRange(hsv, lower, upper)
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        biggest = max(contours, key=cv2.contourArea)
+        if contours:
+            c = max(contours, key=cv2.contourArea)
+            if cv2.contourArea(c) > 500:
+                (x, y), _ = cv2.minEnclosingCircle(c)
+                cx, cy = int(x), int(y)
+                self.points.append((cx, cy))
+                cv2.circle(img, (cx, cy), 5, (0,0,255), -1)
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
 @st.fragment(run_every="1s")
 def show_sidebar_footer():
     repo = Repo(os.getcwd(), search_parent_directories=True)
